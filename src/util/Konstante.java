@@ -33,5 +33,6 @@ public interface Konstante {
     public static final int VRATI_LISTU_TIMOVA_PREMA_KRITERIJUMU = 21;
     public static final int PROMENI_LOZINKU_KORISNIKA = 22;
     public static final int VRATI_UCINKE_ODREDJENOG_IGRACA_NA_UTAKMICI = 23;
+    public static final int IZLOGUJ_SE = 24;
     
 }
