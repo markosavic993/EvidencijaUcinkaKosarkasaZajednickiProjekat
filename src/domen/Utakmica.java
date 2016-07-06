@@ -20,7 +20,8 @@ import util.Konstante;
  *
  * @author Marko
  */
-public class Utakmica implements Serializable, DomenskiObjekat{
+public class Utakmica implements Serializable, DomenskiObjekat {
+
     private int idUtakmice;
     private Date datumOdigravanja;
     private Tim domacin;
@@ -29,7 +30,7 @@ public class Utakmica implements Serializable, DomenskiObjekat{
     private int poeniGost;
 
     private int uslov;
-    
+
     public Utakmica() {
     }
 
@@ -64,8 +65,6 @@ public class Utakmica implements Serializable, DomenskiObjekat{
     public void setPoeniGost(int poeniGost) {
         this.poeniGost = poeniGost;
     }
-    
-    
 
     public int getIdUtakmice() {
         return idUtakmice;
@@ -106,13 +105,17 @@ public class Utakmica implements Serializable, DomenskiObjekat{
     public void setUslov(int uslov) {
         this.uslov = uslov;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
-        if(obj == null) return false;
-        if(!(obj instanceof Utakmica)) return false;
-        
-        return ((Utakmica)obj).getIdUtakmice() == this.getIdUtakmice();
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof Utakmica)) {
+            return false;
+        }
+
+        return ((Utakmica) obj).getIdUtakmice() == this.getIdUtakmice();
     }
 
     @Override
@@ -120,10 +123,10 @@ public class Utakmica implements Serializable, DomenskiObjekat{
         //return domacin + " - " + gost;
         return ispisi();
     }
-    
+
     public String ispisi() {
         String datum = new SimpleDateFormat("dd.MM.yyyy.").format(datumOdigravanja);
-        return domacin + " - " + gost + " ( " + datum + " )" ;
+        return domacin + " - " + gost + " ( " + datum + " )";
     }
 
     @Override
@@ -143,7 +146,7 @@ public class Utakmica implements Serializable, DomenskiObjekat{
 
     @Override
     public String vratiVrednostiZaSET() {
-        return "poeni_domacin = "+this.getPoeniDomacin()+", poeni_gost = "+this.poeniGost;
+        return "poeni_domacin = " + this.getPoeniDomacin() + ", poeni_gost = " + this.poeniGost;
     }
 
     @Override
@@ -153,42 +156,34 @@ public class Utakmica implements Serializable, DomenskiObjekat{
 
     @Override
     public String vratiDeoZaSELECT() {
-        if(uslov == Konstante.VRATI_ID_UTAKMICE) {
+        if (uslov == Konstante.VRATI_ID_UTAKMICE) {
             return "MAX(id)";
-        } 
-        
-        if(uslov == Konstante.VRATI_BROJ_POENA_DOMACINA_I_GOSTA) {
-            return "poeni_domacin, poeni_gost";
         }
-        
+
         return "u.id, u.datum, t.sifratima, t.naziv, t.godinaosnivanja, t.grad, t.hala, t2.sifratima AS sifra, t2.naziv AS n, t2.godinaosnivanja AS godina, t2.grad AS g, t2.hala AS h, u.poeni_domacin, u.poeni_gost";
     }
 
     @Override
     public String vratiDeoZaFROM() {
-        if(uslov == Konstante.VRATI_ID_UTAKMICE) {
-            return "utakmica";
-        } 
-        
-        if(uslov == Konstante.VRATI_BROJ_POENA_DOMACINA_I_GOSTA) {
+        if (uslov == Konstante.VRATI_ID_UTAKMICE) {
             return "utakmica";
         }
-       return "utakmica u JOIN tim t ON (u.domacin = t.sifratima) JOIN tim t2 ON (u.gost = t2.sifratima)";
+
+        return "utakmica u JOIN tim t ON (u.domacin = t.sifratima) JOIN tim t2 ON (u.gost = t2.sifratima)";
     }
 
     @Override
     public List napuniListuObjekata(ResultSet rs) {
         List<Utakmica> lu = new ArrayList<>();
         try {
-            
+
             while (rs.next()) {
                 Tim d = new Tim(rs.getInt("sifratima"), rs.getString("naziv"), rs.getInt("godinaosnivanja"), rs.getString("grad"), rs.getString("hala"));
                 Tim g = new Tim(rs.getInt("sifra"), rs.getString("n"), rs.getInt("godina"), rs.getString("g"), rs.getString("h"));
                 lu.add(new Utakmica(rs.getInt("id"), rs.getDate("datum"), d, g, rs.getInt("poeni_domacin"), rs.getInt("poeni_gost")));
 
             }
-            
-           
+
         } catch (SQLException ex) {
             Logger.getLogger(Utakmica.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -197,14 +192,18 @@ public class Utakmica implements Serializable, DomenskiObjekat{
 
     @Override
     public DomenskiObjekat vratiObjekat(ResultSet rs) {
-        if(uslov == Konstante.VRATI_BROJ_POENA_DOMACINA_I_GOSTA) {
+        if (uslov == Konstante.VRATI_BROJ_POENA_DOMACINA_I_GOSTA) {
             try {
-                return new Utakmica(rs.getInt("id"), rs.getDate("datum"), new Tim(), new Tim(), rs.getInt("poeni_domacin"), rs.getInt("poeni_gost"));
+                if (rs.next()) {
+                    Tim d = new Tim(rs.getInt("sifratima"), rs.getString("naziv"), rs.getInt("godinaosnivanja"), rs.getString("grad"), rs.getString("hala"));
+                    Tim g = new Tim(rs.getInt("sifra"), rs.getString("n"), rs.getInt("godina"), rs.getString("g"), rs.getString("h"));
+                    return new Utakmica(rs.getInt("id"), rs.getDate("datum"), d, g, rs.getInt("poeni_domacin"), rs.getInt("poeni_gost"));
+                }
             } catch (SQLException ex) {
-                Logger.getLogger(Utakmica.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex.getMessage());
             }
         }
-        
+
         return null;
     }
 
@@ -218,9 +217,8 @@ public class Utakmica implements Serializable, DomenskiObjekat{
         } catch (SQLException ex) {
             Logger.getLogger(Utakmica.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return max;
     }
-    
-    
+
 }

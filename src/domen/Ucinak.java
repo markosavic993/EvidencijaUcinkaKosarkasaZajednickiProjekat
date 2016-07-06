@@ -80,12 +80,12 @@ public class Ucinak implements Serializable, DomenskiObjekat {
 
     @Override
     public String vratiDeoZaINSERT(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "ucinak(kosarkas, utakmica, tip, vrednost)";
     }
 
     @Override
     public String vratiVrednostiZaINSERT(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return String.format("('%s', %s, '%s', %s)", this.kosarkas.getJmbg(), this.utakmica.getIdUtakmice(), this.tipUcinka.getNaziv(), this.vrednost);
     }
 
     @Override
@@ -122,7 +122,7 @@ public class Ucinak implements Serializable, DomenskiObjekat {
                 Tim t = new Tim(rs.getInt("sifratima"), rs.getString("naziv"), rs.getInt("godinaosnivanja"), rs.getString("grad"), rs.getString("hala"));
                 Kosarkas k = new Kosarkas(rs.getString("ime"), rs.getString("prezime"), rs.getString("jmbg"), rs.getDate("datumrodjenja"), rs.getString("pozicija"), rs.getInt("broj"), t, rs.getInt("visina"), rs.getInt("tezina"));
                 int vrednost = rs.getInt("vrednost");
-                System.out.println(this.getUtakmica());
+                //System.out.println(this.getUtakmica());
                 lu.add(new Ucinak(k, this.getUtakmica(), tip, vrednost));
                 
             }
