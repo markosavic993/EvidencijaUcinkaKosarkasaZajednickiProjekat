@@ -34,5 +34,11 @@ public interface Konstante {
     public static final int PROMENI_LOZINKU_KORISNIKA = 22;
     public static final int VRATI_UCINKE_ODREDJENOG_IGRACA_NA_UTAKMICI = 23;
     public static final int IZLOGUJ_SE = 24;
+    public static final int VRATI_TIMOVE_PREMA_KRITERIJUMU = 25;
+    public static final int AZURIRAJ_KOSARKASE_NAKON_BRISNJA_TIMA = 26;
+    public static final int VRATI_KOSARKASE_PREMA_KRITERIJUMU = 27;
+    public static final int VRATI_ID_UTAKMICE = 28;
+    public static final int VRATI_ID_TIMA = 29;
+    public static final int VRATI_BROJ_POENA_DOMACINA_I_GOSTA = 30;
     
 }
