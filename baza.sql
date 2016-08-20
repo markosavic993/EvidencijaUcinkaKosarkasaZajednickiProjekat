@@ -64,6 +64,7 @@ insert  into `kosarkas`(`ime`,`prezime`,`datumrodjenja`,`jmbg`,`pozicija`,`broj`
 ('Aleksandar','Cvetkovic','1903-05-30 21:00:52','1111111111111','Plejmejker',4,192,87,3),
 ('Janko','Jankovic','1987-05-14 00:00:00','1212121212121','Krilni centar',55,207,102,5),
 ('Jovan','Milosevic','1987-06-01 00:00:00','1231231231233','Krilo',45,204,99,5),
+('kos1','p1','1960-01-01 00:00:00','1231231231237','Plejmejker',0,185,85,19),
 ('Ivko','Ivkovic','1981-01-01 00:00:00','1234512343555','Bek',0,199,95,14),
 ('Nikola','Jokic','1994-03-03 00:00:00','2121212121212','Centar',6,214,106,1),
 ('Edo','Muric','1991-11-21 21:02:20','2222222222222','Krilo',8,204,98,3),
@@ -79,7 +80,8 @@ insert  into `kosarkas`(`ime`,`prezime`,`datumrodjenja`,`jmbg`,`pozicija`,`broj`
 ('Marko','Markovic','1989-02-13 00:00:00','9191919191191','Bek',8,198,92,3),
 ('Mita','Mitic','1960-01-01 00:00:00','9829819839815','Plejmejker',0,123,123,1),
 ('Avram','Stojkovic','1984-02-05 00:00:00','9873456212341','Krilni centar',14,199,96,1),
-('Petar','Aranitovic','1994-04-01 00:00:00','9879871231236','Plejmejker',5,195,87,3);
+('Petar','Aranitovic','1994-04-01 00:00:00','9879871231236','Plejmejker',5,195,87,3),
+('k2','p2','1960-01-01 00:00:00','9879879879873','Bek',3,198,89,19);
 
 /*Table structure for table `tim` */
 
@@ -109,7 +111,9 @@ insert  into `tim`(`sifratima`,`naziv`,`godinaosnivanja`,`grad`,`hala`) values
 (12,'PlayOff',2009,'Uzice','Gradska'),
 (14,'Mega Leks',2004,'Sremska Mitrovica','Mega'),
 (17,'Priboj',2000,'Priboj','Centralna'),
-(18,'Borac',1962,'Cacak','Morava');
+(18,'Borac',1962,'Cacak','Morava'),
+(19,'T1',2016,'G1','H1'),
+(20,'T2',2016,'G2','H2');
 
 /*Table structure for table `tipucinka` */
 
@@ -151,7 +155,7 @@ CREATE TABLE `ucinak` (
   CONSTRAINT `ucinak_ibfk_1` FOREIGN KEY (`kosarkas`) REFERENCES `kosarkas` (`jmbg`),
   CONSTRAINT `ucinak_ibfk_2` FOREIGN KEY (`utakmica`) REFERENCES `utakmica` (`id`),
   CONSTRAINT `ucinak_ibfk_3` FOREIGN KEY (`tip`) REFERENCES `tipucinka` (`naziv`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=latin1;
 
 /*Data for the table `ucinak` */
 
@@ -185,7 +189,52 @@ insert  into `ucinak`(`idUcinka`,`kosarkas`,`utakmica`,`tip`,`vrednost`) values
 (46,'9879871231236',1,'Poeni',5),
 (47,'6666666666666',3,'Bacanja',3),
 (48,'6666666666666',3,'Poeni',20),
-(49,'2909993792611',2,'Asistencije',2);
+(49,'2909993792611',2,'Asistencije',2),
+(50,'3333333333333',2,'Poeni',6),
+(51,'2222222222222',2,'Poeni',18),
+(52,'6666666666666',1,'Blokade',2),
+(53,'6666666666666',1,'Poeni',7),
+(54,'1231231231237',4,'Poeni',4),
+(55,'9879879879873',4,'Poeni',5),
+(56,'9879879879873',4,'Poeni',2),
+(57,'1231231231237',4,'Blokade',2),
+(58,'1231231231237',4,'Blokade',1),
+(59,'9879871231236',8,'Poeni',9),
+(60,'9879871231236',8,'Faulovi',1),
+(61,'1111111111111',8,'Poeni',12),
+(62,'1111111111111',8,'Faulovi',2),
+(63,'3333333333333',8,'Poeni',7),
+(64,'3333333333333',8,'Faulovi',0),
+(65,'9191919191191',8,'Poeni',2),
+(66,'9191919191191',8,'Faulovi',2),
+(67,'2222222222222',8,'Poeni',10),
+(68,'2222222222222',8,'Faulovi',3),
+(69,'6666666666666',8,'Poeni',10),
+(70,'6666666666666',8,'Faulovi',1),
+(71,'4444444444444',8,'Poeni',8),
+(72,'4444444444444',8,'Faulovi',0),
+(73,'5555555555555',8,'Poeni',5),
+(74,'5555555555555',8,'Faulovi',0),
+(75,'1010991010991',8,'Poeni',2),
+(76,'1010991010991',8,'Faulovi',0),
+(77,'5555555555551',8,'Poeni',7),
+(78,'5555555555551',8,'Faulovi',5),
+(79,'9879871231236',8,'Poeni',5),
+(80,'9879871231236',8,'Asistencije',5),
+(81,'2909993792611',9,'Poeni',30),
+(82,'2909993792611',9,'Faulovi',1),
+(83,'3003997790014',9,'Poeni',21),
+(84,'3003997790014',9,'Faulovi',3),
+(85,'9879871231236',9,'Poeni',5),
+(86,'9879871231236',9,'Faulovi',2),
+(87,'1111111111111',9,'Poeni',11),
+(88,'1111111111111',9,'Faulovi',3),
+(89,'3333333333333',9,'Poeni',7),
+(90,'3333333333333',9,'Faulovi',0),
+(91,'9191919191191',9,'Poeni',5),
+(92,'9191919191191',9,'Faulovi',5),
+(93,'2222222222222',9,'Poeni',12),
+(94,'2222222222222',9,'Faulovi',0);
 
 /*Table structure for table `utakmica` */
 
@@ -208,9 +257,13 @@ CREATE TABLE `utakmica` (
 /*Data for the table `utakmica` */
 
 insert  into `utakmica`(`id`,`datum`,`domacin`,`gost`,`poeni_domacin`,`poeni_gost`) values 
-(1,'2016-06-05 00:00:00',3,4,71,41),
-(2,'2013-03-03 00:00:00',9,3,42,0),
-(3,'2016-01-01 00:00:00',18,4,0,20);
+(1,'2016-06-05 00:00:00',3,4,71,48),
+(2,'2013-03-03 00:00:00',9,3,42,24),
+(3,'2016-01-01 00:00:00',18,4,0,20),
+(4,'2016-01-01 00:00:00',19,20,4,7),
+(5,'2016-07-17 00:00:00',9,18,0,0),
+(8,'2016-07-01 00:00:00',3,4,45,32),
+(9,'2016-04-01 00:00:00',9,3,51,40);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
