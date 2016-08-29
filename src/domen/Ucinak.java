@@ -23,6 +23,7 @@ public class Ucinak implements Serializable, DomenskiObjekat {
     private Utakmica utakmica;
     private TipUcinka tipUcinka;
     private int vrednost;
+    private Korisnik korisnik;
 
     public Ucinak() {
     }
@@ -32,6 +33,14 @@ public class Ucinak implements Serializable, DomenskiObjekat {
         this.utakmica = utakmica;
         this.tipUcinka = tipUcinka;
         this.vrednost = vrednost;
+    }
+
+    public Ucinak(Kosarkas kosarkas, Utakmica utakmica, TipUcinka tipUcinka, int vrednost, Korisnik korisnik) {
+        this.kosarkas = kosarkas;
+        this.utakmica = utakmica;
+        this.tipUcinka = tipUcinka;
+        this.vrednost = vrednost;
+        this.korisnik = korisnik;
     }
 
     public TipUcinka getTipUcinka() {
@@ -66,6 +75,15 @@ public class Ucinak implements Serializable, DomenskiObjekat {
         this.utakmica = utakmica;
     }
 
+    public Korisnik getKorisnik() {
+        return korisnik;
+    }
+
+    public void setKorisnik(Korisnik korisnik) {
+        this.korisnik = korisnik;
+    }
+    
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -80,12 +98,12 @@ public class Ucinak implements Serializable, DomenskiObjekat {
 
     @Override
     public String vratiDeoZaINSERT(int i) {
-        return "ucinak(kosarkas, utakmica, tip, vrednost)";
+        return "ucinak(kosarkas, utakmica, tip, vrednost, korisnik)";
     }
 
     @Override
     public String vratiVrednostiZaINSERT(int i) {
-        return String.format("('%s', %s, '%s', %s)", this.kosarkas.getJmbg(), this.utakmica.getIdUtakmice(), this.tipUcinka.getNaziv(), this.vrednost);
+        return String.format("('%s', %s, '%s', %s, '%s')", this.kosarkas.getJmbg(), this.utakmica.getIdUtakmice(), this.tipUcinka.getNaziv(), this.vrednost, this.korisnik.getUsername());
     }
 
     @Override
@@ -110,7 +128,7 @@ public class Ucinak implements Serializable, DomenskiObjekat {
 
     @Override
     public String vratiDeoZaFROM() {
-        return "ucinak u JOIN utakmica ut ON (u.utakmica = ut.id) JOIN kosarkas k ON (u.kosarkas = k.jmbg) JOIN tipucinka t ON (u.tip = t.naziv) JOIN tim tm ON (k.sifratima = tm.sifratima) HAVING u.utakmica = " + this.getUtakmica().getIdUtakmice();
+        return "ucinak u JOIN utakmica ut ON (u.utakmica = ut.id) JOIN kosarkas k ON (u.kosarkas = k.jmbg) JOIN tipucinka t ON (u.tip = t.naziv) JOIN tim tm ON (k.sifratima = tm.sifratima) JOIN korisnik ko ON (ko.username = u.korisnik) HAVING u.utakmica = " + this.getUtakmica().getIdUtakmice();
     }
 
     @Override
@@ -121,9 +139,10 @@ public class Ucinak implements Serializable, DomenskiObjekat {
                 TipUcinka tip = new TipUcinka(rs.getString("naziv"), rs.getString("opis"));
                 Tim t = new Tim(rs.getInt("sifratima"), rs.getString("naziv"), rs.getInt("godinaosnivanja"), rs.getString("grad"), rs.getString("hala"));
                 Kosarkas k = new Kosarkas(rs.getString("ime"), rs.getString("prezime"), rs.getString("jmbg"), rs.getDate("datumrodjenja"), rs.getString("pozicija"), rs.getInt("broj"), t, rs.getInt("visina"), rs.getInt("tezina"));
-                int vrednost = rs.getInt("vrednost");
+                int v = rs.getInt("vrednost");
+                Korisnik ko = new Korisnik(rs.getString("username"), rs.getString("password"), rs.getString("mail"));
                 //System.out.println(this.getUtakmica());
-                lu.add(new Ucinak(k, this.getUtakmica(), tip, vrednost));
+                lu.add(new Ucinak(k, this.getUtakmica(), tip, v, ko));
                 
             }
         } catch (SQLException ex) {
