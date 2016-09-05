@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author Marko
  */
-public class Ucinak implements Serializable, DomenskiObjekat {
+public class UcinakKosarkasa implements Serializable, DomenskiObjekat {
 
     private Kosarkas kosarkas;
     private Utakmica utakmica;
@@ -25,17 +25,17 @@ public class Ucinak implements Serializable, DomenskiObjekat {
     private int vrednost;
     private Korisnik korisnik;
 
-    public Ucinak() {
+    public UcinakKosarkasa() {
     }
 
-    public Ucinak(Kosarkas kosarkas, Utakmica utakmica, TipUcinka tipUcinka, int vrednost) {
+    public UcinakKosarkasa(Kosarkas kosarkas, Utakmica utakmica, TipUcinka tipUcinka, int vrednost) {
         this.kosarkas = kosarkas;
         this.utakmica = utakmica;
         this.tipUcinka = tipUcinka;
         this.vrednost = vrednost;
     }
 
-    public Ucinak(Kosarkas kosarkas, Utakmica utakmica, TipUcinka tipUcinka, int vrednost, Korisnik korisnik) {
+    public UcinakKosarkasa(Kosarkas kosarkas, Utakmica utakmica, TipUcinka tipUcinka, int vrednost, Korisnik korisnik) {
         this.kosarkas = kosarkas;
         this.utakmica = utakmica;
         this.tipUcinka = tipUcinka;
@@ -89,11 +89,11 @@ public class Ucinak implements Serializable, DomenskiObjekat {
         if (obj == null) {
             return false;
         }
-        if (!(obj instanceof Ucinak)) {
+        if (!(obj instanceof UcinakKosarkasa)) {
             return false;
         }
 
-        return ((Ucinak) obj).getKosarkas().equals(this.kosarkas) && ((Ucinak) obj).getTipUcinka().equals(this.tipUcinka) && ((Ucinak) obj).getUtakmica().equals(this.utakmica);
+        return ((UcinakKosarkasa) obj).getKosarkas().equals(this.kosarkas) && ((UcinakKosarkasa) obj).getTipUcinka().equals(this.tipUcinka) && ((UcinakKosarkasa) obj).getUtakmica().equals(this.utakmica);
     }
 
     @Override
@@ -133,7 +133,7 @@ public class Ucinak implements Serializable, DomenskiObjekat {
 
     @Override
     public List napuniListuObjekata(ResultSet rs) {
-        List<Ucinak> lu = new ArrayList<>();
+        List<UcinakKosarkasa> lu = new ArrayList<>();
         try {
             while (rs.next()) {
                 TipUcinka tip = new TipUcinka(rs.getString("naziv"), rs.getString("opis"));
@@ -142,11 +142,11 @@ public class Ucinak implements Serializable, DomenskiObjekat {
                 int v = rs.getInt("vrednost");
                 Korisnik ko = new Korisnik(rs.getString("username"), rs.getString("password"), rs.getString("mail"));
                 //System.out.println(this.getUtakmica());
-                lu.add(new Ucinak(k, this.getUtakmica(), tip, v, ko));
+                lu.add(new UcinakKosarkasa(k, this.getUtakmica(), tip, v, ko));
                 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Ucinak.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UcinakKosarkasa.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return lu;
